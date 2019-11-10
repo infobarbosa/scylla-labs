@@ -12,8 +12,8 @@ Vagrant.configure("2") do |config|
     host.vm.network "private_network", ip: "192.168.56.51"
     host.vm.hostname = "scylla1.infobarbosa.github.com"
     host.vm.provider "virtualbox" do |v|
-      v.memory = 2048
-      v.cpus = 1
+      v.memory = 3000
+      v.cpus = 2
       v.name = "scylla1.vagrant"
       unless File.exist?(scylla1_disk)
         v.customize ['createhd', '--filename', scylla1_disk, '--variant', 'Fixed', '--size', 20 * 1024]
@@ -30,8 +30,8 @@ Vagrant.configure("2") do |config|
     host.vm.network "private_network", ip: "192.168.56.52"
     host.vm.hostname = "scylla2.infobarbosa.github.com"
     host.vm.provider "virtualbox" do |v|
-      v.memory = 2048
-      v.cpus = 1
+      v.memory = 3000
+      v.cpus = 2
       v.name = "scylla2.vagrant"
       unless File.exist?(scylla2_disk)
         v.customize ['createhd', '--filename', scylla2_disk, '--variant', 'Fixed', '--size', 20 * 1024]
