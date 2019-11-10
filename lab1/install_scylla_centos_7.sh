@@ -7,4 +7,4 @@ sudo wget -O /etc/yum.repos.d/scylla.repo http://repositories.scylladb.com/scyll
 
 sudo yum install -y scylla-enterprise-2018.1.6
 
-sudo scylla_setup --disks /dev/md0 --nic eth1 --ntp-domain centos --setup-nic --no-ec2-check --no-cpuscaling-setup --no-fstrim-setup
+sudo scylla_setup --disks /dev/sdb --nic eth1 --ntp-domain centos --setup-nic --no-ec2-check --no-cpuscaling-setup --no-fstrim-setup
