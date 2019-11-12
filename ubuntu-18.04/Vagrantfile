@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+scylla1_disk = './scylla1_disk.vdi'
+scylla2_disk = './scylla2_disk.vdi'
+
+Vagrant.configure("2") do |config|
+  #configuracao da instancia da autoridade certificadora (CA)
+  config.vm.define "scylla1" do |host|
+    host.vm.box = "bento/ubuntu-18.04"
+
+    host.vm.network "private_network", ip: "192.168.56.51"
+    host.vm.hostname = "scylla1.infobarbosa.github.com"
+    host.vm.provider "virtualbox" do |v|
+      v.memory = 4500
+      v.cpus = 2
+      v.name = "scylla1.vagrant"
+      unless File.exist?(scylla1_disk)
+        v.customize ['createhd', '--filename', scylla1_disk, '--variant', 'Fixed', '--size', 20 * 1024]
+      end
+      v.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', scylla1_disk]
+    end
+
+    host.vm.provision "shell", path: "install_scylla_ubuntu_18.04.sh", privileged: false
+  end
+
+  config.vm.define "scylla2" do |host|
+    host.vm.box = "bento/ubuntu-18.04"
+
+    host.vm.network "private_network", ip: "192.168.56.52"
+    host.vm.hostname = "scylla2.infobarbosa.github.com"
+    host.vm.provider "virtualbox" do |v|
+      v.memory = 4500
+      v.cpus = 2
+      v.name = "scylla2.vagrant"
+      unless File.exist?(scylla2_disk)
+        v.customize ['createhd', '--filename', scylla2_disk, '--variant', 'Fixed', '--size', 20 * 1024]
+      end
+      v.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', scylla2_disk]
+    end
+
+    host.vm.provision "shell", path: "install_scylla_ubuntu_18.04.sh", privileged: false
+  end
+
+end
